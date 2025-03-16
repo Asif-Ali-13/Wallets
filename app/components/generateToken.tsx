@@ -10,7 +10,7 @@ export function GenerateToken(){
     return (
         <div>
             <div className="flex justify-center">
-                <button disabled={clicked} className="my-4 mx-2 px-8 py-4 border-2 rounded-2xl font-bold bg-black text-white" onClick={() => setClicked(!clicked)}>Generate Pharse</button>
+                <button disabled={clicked} className="my-4 mx-2 px-8 py-4 border-2 rounded-2xl font-bold bg-black text-white cursor-pointer hover:shadow-2xl" onClick={() => setClicked(!clicked)}>Generate Pharse</button>
             </div>
             <div className="flex justify-center">
                 {

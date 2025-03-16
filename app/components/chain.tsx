@@ -46,19 +46,19 @@ export default function Chain({ seedPhrase }: input){
     return (
         <div>
             <div className="flex gap-4">
-                <button disabled={isEth} className="px-4 py-2 border-2 rounded-xl font-bold" 
+                <button disabled={isEth} className="px-4 py-2 border-2 rounded-xl font-bold cursor-pointer hover:bg-gray-200" 
                 style={{backgroundColor : isSol ? "green" : "", color: isSol ? "white": "black"}} onClick={() => setSol(true)}>Solana</button>
 
-                <button disabled={isSol} className="mx-2 px-4 py-2 border-2 rounded-xl font-bold" 
+                <button disabled={isSol} className="mx-2 px-4 py-2 border-2 rounded-xl font-bold cursor-pointer hover:bg-gray-200" 
                 style={{backgroundColor : isEth ? "green" : "", color: isEth ? "white": "black"}} onClick={() => setEth(true)}>Ethereum</button>
             </div>
             <div className="my-2">
                 {
                     (isSol || isEth) && 
                     <div className="flex justify-end gap-2">
-                        <button className="px-4 py-2 border-2 rounded-xl font-bold bg-gray-50" 
+                        <button className="px-4 py-2 border-2 rounded-xl font-bold bg-gray-50 cursor-pointer hover:bg-gray-200" 
                         onClick={addWallet}>Add Wallet</button>
-                        <button className="px-4 py-2 border-2 rounded-xl font-bold bg-red-500 text-white" 
+                        <button className="px-4 py-2 border-2 rounded-xl font-bold bg-red-500 text-white cursor-pointer hover:bg-red-700" 
                         onClick={clearWallets}>Clear Wallets</button>
                     </div>
                 }
