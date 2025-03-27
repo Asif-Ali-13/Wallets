@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Wallet from "./wallet";
 import nacl from "tweetnacl";
 import { derivePath } from "ed25519-hd-key";
@@ -14,6 +14,7 @@ export default function Chain({ seedPhrase }: input){
     const [wallets, setWallets] = useState([{id: 0, pub: '', pri: ''}]);
     const [isSol, setSol] = useState(false);
     const [isEth, setEth] = useState(false);
+    const keyRef = useRef(0);
     
     const seed = mnemonicToSeedSync(seedPhrase);
 
@@ -21,13 +22,15 @@ export default function Chain({ seedPhrase }: input){
         setWallets(wallets.filter(w => w.id === 0));
         setSol(false);
         setEth(false);
+        keyRef.current = 0;
     }
 
     function addWallet(){
-        const len = wallets.length;
+        keyRef.current = keyRef.current + 1;
+        const walletCount = keyRef.current;
         const type = isSol? 501 : 60;
         
-        const path = `m/44'/${type}'/${len}'/0'`;
+        const path = `m/44'/${type}'/${walletCount}'/0'`;
         const derivedSeed = derivePath(path, seed.toString('hex')).key;
 
         const keyPair = nacl.sign.keyPair.fromSeed(derivedSeed);
@@ -40,7 +43,11 @@ export default function Chain({ seedPhrase }: input){
         console.log(publicKeyBase58);
         console.log(privateKeyBase58);
 
-        setWallets([...wallets, {id: (len), pub: publicKeyBase58, pri: privateKeyBase58}])
+        setWallets([...wallets, {id: (walletCount), pub: publicKeyBase58, pri: privateKeyBase58}])
+    }
+
+    function deleteWallet(walletId: number) {
+        setWallets(wallets.filter((w) => w.id !== walletId));
     }
 
     return (
@@ -70,6 +77,7 @@ export default function Chain({ seedPhrase }: input){
                         walletKey={w.id}
                         pub={w.pub}
                         pri={w.pri}
+                        onDelete={deleteWallet}
                     ></Wallet>)
                 }
             </div>
